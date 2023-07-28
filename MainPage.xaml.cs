@@ -11,7 +11,7 @@ public partial class MainPage : ContentPage
     // Event handler for the button click to fetch weather data.
     private async void OnGetWeatherClicked(object sender, EventArgs e)
     {
-        string apiKey = "YOUR_API_KEY"; // Replace with your OpenWeatherMap API key
+        string apiKey = "533ac28f3db6330c59a8711cfdf35add"; // Replace with your OpenWeatherMap API key
         string cityOrZipCode = cityEntry.Text; // Get the city name or ZIP code from the entry field
 
         // Fetch weather data from the API
