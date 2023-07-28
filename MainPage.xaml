@@ -7,9 +7,8 @@
         <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center">
+            VerticalOptions="Start">
             <StackLayout>
-                <Entry x:Name="cityEntry" Placeholder="Enter city name or ZIP code" />
                 <Button Text="Get Weather" Clicked="OnGetWeatherClicked" />
                 <Label x:Name="cityNameLabel" FontSize="24" HorizontalOptions="CenterAndExpand" />
                 <Label x:Name="temperatureLabel" FontSize="32" HorizontalOptions="CenterAndExpand" />

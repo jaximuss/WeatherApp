@@ -1,52 +1,66 @@
 ﻿using System.Text.Json;
-
 namespace WeatherApp;
 
 public partial class MainPage : ContentPage
 {
-	int count = 0;
-
-    private WeatherData weatherData;
+    private WeatherApiResponse weatherData;
 
     // Event handler for the button click to fetch weather data.
     private async void OnGetWeatherClicked(object sender, EventArgs e)
     {
-        string apiKey = "533ac28f3db6330c59a8711cfdf35add"; // Replace with your OpenWeatherMap API key
-        string cityOrZipCode = cityEntry.Text; // Get the city name or ZIP code from the entry field
-
-        // Fetch weather data from the API
-        weatherData = await GetWeatherDataAsync(cityOrZipCode, apiKey);
-
-        // Update the UI with weather information
-        if (weatherData != null)
+        string URL = "https://api.open-meteo.com/v1/forecast?latitude=6.5&longitude=3.375&rain,is_day&current_weather=true&temperature_unit=fahrenheit";
+        
+        try
         {
-            cityNameLabel.Text = weatherData.Name;
-            temperatureLabel.Text = $"{weatherData.Main.Temp}°C";
-            descriptionLabel.Text = weatherData.Weather[0].Description;
+            // Fetch weather data from the API
+            Console.WriteLine("API URL: " + URL);
+            weatherData = await GetWeatherDataAsync(URL);
+            Console.WriteLine("API Response: " + JsonSerializer.Serialize(weatherData));
+
+            // Update the UI with weather information
+            if (weatherData != null)
+            {
+                // Log the received latitude, longitude, and timezone
+                Console.WriteLine("Latitude: " + weatherData.Latitude);
+                Console.WriteLine("Longitude: " + weatherData.Longitude);
+                Console.WriteLine("Timezone: " + weatherData.Timezone);
+
+                cityNameLabel.Text = "Location: " + weatherData.Latitude + ", " + weatherData.Longitude;
+                descriptionLabel.Text = "Timezone: " + weatherData.Timezone;
+            }
+            else
+            {
+                cityNameLabel.Text = "Weather data not available";
+                temperatureLabel.Text = "";
+                descriptionLabel.Text = "";
+            }
         }
-        else
+        catch (Exception ex)
         {
-            cityNameLabel.Text = "City not found";
+            // Log or display the exception details
+            Console.WriteLine(ex.Message);
+            Console.WriteLine(ex.StackTrace);
+            cityNameLabel.Text = "Error fetching weather data";
             temperatureLabel.Text = "";
             descriptionLabel.Text = "";
         }
     }
-    public MainPage()
-	{
-		InitializeComponent();
-	}
 
-    private async Task<WeatherData> GetWeatherDataAsync(string cityOrZipCode, string apiKey)
+    public MainPage()
+    {
+        InitializeComponent();
+    }
+
+    private async Task<WeatherApiResponse> GetWeatherDataAsync(string apiUrl)
     {
         using (var httpClient = new HttpClient())
         {
-            string apiUrl = $"https://api.openweathermap.org/data/2.5/weather?q={cityOrZipCode}&appid={apiKey}&units=metric";
             var response = await httpClient.GetAsync(apiUrl);
 
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
-                var weatherData = JsonSerializer.Deserialize<WeatherData>(content);
+                var weatherData = JsonSerializer.Deserialize<WeatherApiResponse>(content);
                 return weatherData;
             }
 
@@ -54,4 +68,3 @@ public partial class MainPage : ContentPage
         }
     }
 }
-
