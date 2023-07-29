@@ -9,6 +9,7 @@
             Padding="30,0"
             VerticalOptions="Start">
             <StackLayout>
+                <!--we can add more controls here-->
                 <Button Text="Get Weather" Clicked="OnGetWeatherClicked" />
                 <Label x:Name="cityNameLabel" FontSize="24" HorizontalOptions="CenterAndExpand" />
                 <Label x:Name="temperatureLabel" FontSize="32" HorizontalOptions="CenterAndExpand" />

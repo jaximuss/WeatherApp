@@ -2,6 +2,10 @@
 
 namespace WeatherApp
 {
+    /// <summary>
+    /// always make sure to add JSON PROPERTY NAME to the fields
+    /// each of these fields contain the data from the api and hold it out in your application
+    /// </summary>
     public class WeatherApiResponse
     {
         [JsonPropertyName("latitude")]

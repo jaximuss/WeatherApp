@@ -8,8 +8,10 @@ public partial class MainPage : ContentPage
     // Event handler for the button click to fetch weather data.
     private async void OnGetWeatherClicked(object sender, EventArgs e)
     {
+        //the api string no key required
         string URL = "https://api.open-meteo.com/v1/forecast?latitude=6.5&longitude=3.375&rain,is_day&current_weather=true&temperature_unit=fahrenheit";
         
+        //try catch for debugging
         try
         {
             // Fetch weather data from the API
@@ -51,6 +53,11 @@ public partial class MainPage : ContentPage
         InitializeComponent();
     }
 
+    /// <summary>
+    /// for fetching the weather data from the api and deserializing it then returning the weather data
+    /// </summary>
+    /// <param name="apiUrl"></param>
+    /// <returns></returns>
     private async Task<WeatherApiResponse> GetWeatherDataAsync(string apiUrl)
     {
         using (var httpClient = new HttpClient())
